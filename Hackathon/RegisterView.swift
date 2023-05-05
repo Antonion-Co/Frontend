@@ -52,7 +52,7 @@ struct RegisterView: View {
         .padding()
     }
 
-    enum LoginError: Error {
+    enum RegisterError: Error {
         case connectionError
         case invalidResponse
         case authenticationError
@@ -60,38 +60,35 @@ struct RegisterView: View {
         case unknownError
     }
 
-    func register(completionHandler: @escaping (Error?) -> Void) throws {
-        let username: String = ""
-        let password: String = ""
-
-        guard let url = URL(string: "https://example.com/api/login") else {
-            throw LoginError.connectionError
+    func register(email: String, username: String, password: String, completionHandler: @escaping (Error?) -> Void) throws {
+        guard let url = URL(string: "https://example.com/api/register") else {
+            throw RegisterError.connectionError
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let params = ["username": username, "password": password]
+        let params = ["email": email, "username": username, "password": password]
         request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("Error : \(error.localizedDescription)")
-                completionHandler(LoginError.connectionError)
+                completionHandler(RegisterError.connectionError)
                 return
             }
             
             guard let httpResponse = response as? HTTPURLResponse else {
-                completionHandler(LoginError.invalidResponse)
+                completionHandler(RegisterError.invalidResponse)
                 return
             }
             
             if httpResponse.statusCode == 200 {
                 completionHandler(nil)
             } else if httpResponse.statusCode == 401 {
-                completionHandler(LoginError.invalidCredentials)
+                completionHandler(RegisterError.invalidCredentials)
             } else {
-                completionHandler(LoginError.unknownError)
+                completionHandler(RegisterError.unknownError)
             }
         }
         
