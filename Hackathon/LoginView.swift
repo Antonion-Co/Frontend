@@ -32,7 +32,7 @@ struct LoginView: View {
                 .padding(.bottom, 20)
 
             Button(action: {
-                // Logical part here
+                token = "OK"
             }) {
                 Text("Login")
                     .font(.headline)
@@ -54,14 +54,14 @@ struct LoginView: View {
         case unknownError
     }
 
-    func login(username: String, password: String, completionHandler: @escaping (Error?) -> Void) throws {
-        guard let url = URL(string: "https://example.com/api/login") else {
+    func login(completionHandler: @escaping (Error?) -> Void) throws {
+        guard let url = URL(string: "https://3a44-2a0d-5600-6-8000-00-c182.ngrok-free.app/api/users/sign_in") else {
             throw LoginError.connectionError
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let params = ["username": username, "password": password]
+        let params = ["username": $username, "password": $password]
         request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct RegisterView: View {
     @State private var email = ""
-    @State private var username = ""
     @State private var password = ""
     @Binding var token: String
 
@@ -21,12 +20,6 @@ struct RegisterView: View {
                 .padding(.bottom, 50)
 
             TextField("Email", text: $email)
-                .padding()
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-
-            TextField("Username", text: $username)
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(5.0)
@@ -66,14 +59,14 @@ struct RegisterView: View {
         case unknownError
     }
 
-    func register(email: String, username: String, password: String, completionHandler: @escaping (Error?) -> Void) throws {
-        guard let url = URL(string: "https://example.com/api/register") else {
+    func register(completionHandler: @escaping (Error?) -> Void) throws {
+        guard let url = URL(string: "https://3a44-2a0d-5600-6-8000-00-c182.ngrok-free.app/api/users/sign_up") else {
             throw RegisterError.connectionError
         }
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let params = ["email": email, "username": username, "password": password]
+        let params = ["email": $email, "password": $password]
         request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
