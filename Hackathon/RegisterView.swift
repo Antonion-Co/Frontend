@@ -11,6 +11,7 @@ struct RegisterView: View {
     @State private var email = ""
     @State private var username = ""
     @State private var password = ""
+    @Binding var token: String
 
     var body: some View {
         VStack {
@@ -38,7 +39,7 @@ struct RegisterView: View {
                 .padding(.bottom, 20)
 
             Button(action: {
-                // Logical part here
+                token = "OK"
             }) {
                 Text("Register")
                     .font(.headline)
@@ -47,6 +48,11 @@ struct RegisterView: View {
                     .frame(width: 220, height: 60)
                     .background(Color.blue)
                     .cornerRadius(15.0)
+            }
+
+            NavigationLink(destination: LoginView(token: $token)) {
+                Text("Already have an account?")
+                    .foregroundColor(.blue)
             }
         }
         .padding()

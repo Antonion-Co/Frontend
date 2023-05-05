@@ -10,6 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var username = ""
     @State private var password = ""
+    @Binding var token: String
 
     var body: some View {
         VStack {

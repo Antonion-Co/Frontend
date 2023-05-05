@@ -8,15 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State var token: String = ""
+
     var body: some View {
-        VStack {
-            Text("Hello World")
+        if token == "" {
+            RegisterView(token: $token)
+        } else {
+            VStack {
+                Text("Hello World")
+            }
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        ContentView()
     }
 }
