@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var username = ""
+    @State private var email = ""
     @State private var password = ""
     @Binding var token: String
 
@@ -19,7 +19,7 @@ struct LoginView: View {
                 .fontWeight(.bold)
                 .padding(.bottom, 50)
 
-            TextField("Username", text: $username)
+            TextField("Email", text: $email)
                 .padding()
                 .background(Color.gray.opacity(0.2))
                 .cornerRadius(5.0)
@@ -32,7 +32,13 @@ struct LoginView: View {
                 .padding(.bottom, 20)
 
             Button(action: {
-                token = "OK"
+                Task.detached {
+                    login(completionHandler: { error in
+                        if error != nil {
+                            print(error as Any)
+                        }
+                    })
+                }
             }) {
                 Text("Login")
                     .font(.headline)
@@ -54,15 +60,21 @@ struct LoginView: View {
         case unknownError
     }
 
-    func login(completionHandler: @escaping (Error?) -> Void) throws {
-        guard let url = URL(string: "https://3a44-2a0d-5600-6-8000-00-c182.ngrok-free.app/api/users/sign_in") else {
-            throw LoginError.connectionError
+    func login(completionHandler: @escaping (Error?) -> Void) {
+        guard let url = URL(string: "https://3a44-2a0d-5600-6-8000-00-c182.ngrok-free.app/api/users/sign_up") else {
+            completionHandler(LoginError.connectionError)
+            return
         }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let params = ["username": $username, "password": $password]
-        request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        let params = ["user": ["email": email, "password": password]]
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
+        } catch {
+            completionHandler(LoginError.invalidCredentials)
+            return
+        }
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -78,10 +90,23 @@ struct LoginView: View {
             }
             
             if httpResponse.statusCode == 200 {
-                completionHandler(nil)
+                guard let responseData = data else {
+                    completionHandler(LoginError.unknownError)
+                    return
+                }
+                let responseJson = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
+                let responseToken = responseJson?["token"] as? String
+                token = responseToken ?? ""
+
+                if token == "" {
+                    completionHandler(LoginError.invalidResponse)
+                } else {
+                    completionHandler(nil)
+                }
             } else if httpResponse.statusCode == 401 {
                 completionHandler(LoginError.invalidCredentials)
             } else {
+                print(httpResponse.statusCode)
                 completionHandler(LoginError.unknownError)
             }
         }
