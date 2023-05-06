@@ -32,13 +32,7 @@ struct RegisterView: View {
                 .padding(.bottom, 20)
 
             Button(action: {
-                Task.detached {
-                    register(completionHandler: { error in
-                        if error != nil {
-                            print(error as Any)
-                        }
-                    })
-                }
+                token = "OK"
             }) {
                 Text("Register")
                     .font(.headline)
@@ -65,21 +59,15 @@ struct RegisterView: View {
         case unknownError
     }
 
-    func register(completionHandler: @escaping (Error?) -> Void) {
-        guard let url = URL(string: "https://5d53-2605-6440-1018-1000-00-921c.ngrok-free.app/api/users/sign_up") else {
-            completionHandler(RegisterError.connectionError)
-            return
+    func register(completionHandler: @escaping (Error?) -> Void) throws {
+        guard let url = URL(string: "https://3a44-2a0d-5600-6-8000-00-c182.ngrok-free.app/api/users/sign_up") else {
+            throw RegisterError.connectionError
         }
-
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let params = ["user": ["email": email, "password": password]]
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
-        } catch {
-            completionHandler(RegisterError.invalidCredentials)
-            return
-        }
+        let params = ["email": $email, "password": $password]
+        request.httpBody = try JSONSerialization.data(withJSONObject: params, options: [])
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
 
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
@@ -94,24 +82,11 @@ struct RegisterView: View {
                 return
             }
             
-            if httpResponse.statusCode == 201 {
-                guard let responseData = data else {
-                    completionHandler(RegisterError.unknownError)
-                    return
-                }
-                let responseJson = try? JSONSerialization.jsonObject(with: responseData, options: []) as? [String: Any]
-                let responseToken = responseJson?["token"] as? String
-                token = responseToken ?? ""
-
-                if token == "" {
-                    completionHandler(RegisterError.invalidResponse)
-                } else {
-                    completionHandler(nil)
-                }
+            if httpResponse.statusCode == 200 {
+                completionHandler(nil)
             } else if httpResponse.statusCode == 401 {
                 completionHandler(RegisterError.invalidCredentials)
             } else {
-                print(httpResponse.statusCode)
                 completionHandler(RegisterError.unknownError)
             }
         }

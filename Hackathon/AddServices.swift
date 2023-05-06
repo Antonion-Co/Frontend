@@ -59,10 +59,9 @@ struct AddServices: View {
         }
         
     }
-    
     // Función para obtener los datos de la API
     func fetchData() {
-        guard let url = URL(string: "https://3a44-2a0d-5600-6-8000-00-c182.ngrok-free.app/api/app_services") else {
+        guard let url = URL(string: "https://5d53-2605-6440-1018-1000-00-921c.ngrok-free.app/api/app_services") else {
             print("URL inválida")
             return
         }
@@ -70,6 +69,10 @@ struct AddServices: View {
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
                 do {
+                    if let jsonString = String(data: data, encoding: .utf8) {
+                        print("JSON recibido: \(jsonString)")
+                    }
+
                     // Decodifica la respuesta JSON en una matriz de opciones de servicios
                     let decodedResponse = try JSONDecoder().decode(ServiceOptionsResponse.self, from: data)
                     DispatchQueue.main.async {
@@ -81,6 +84,8 @@ struct AddServices: View {
                 }
             }
         }.resume()
+        
+        
     }
 }
 
@@ -105,3 +110,7 @@ struct AddServices_Previews: PreviewProvider {
         AddServices()
     }
 }
+
+
+
+

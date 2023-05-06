@@ -15,7 +15,7 @@ struct ContentView: View {
             RegisterView(token: $token)
         } else {
             VStack {
-                ServicesView(token: $token)
+                Services()
             }
         }
     }

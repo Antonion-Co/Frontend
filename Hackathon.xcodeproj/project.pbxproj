@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A6417B42A05D34C007E4AB6 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A6417B32A05D34C007E4AB6 /* Services.swift */; };
 		3A848E2A2A05A0F2006C4059 /* WBuffet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A848E292A05A0F2006C4059 /* WBuffet.swift */; };
 		3A848E2E2A05AB1E006C4059 /* AddServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A848E2D2A05AB1E006C4059 /* AddServices.swift */; };
 		50806F052A05BD6400967B75 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50806F042A05BD6400967B75 /* HomeView.swift */; };
@@ -16,10 +17,10 @@
 		FBA18D2B2A056291003D627D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBA18D2A2A056291003D627D /* Preview Assets.xcassets */; };
 		FBA18D322A05881F003D627D /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA18D312A05881F003D627D /* LoginView.swift */; };
 		FBA18D342A05885E003D627D /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA18D332A05885E003D627D /* RegisterView.swift */; };
-		FBA18D362A05C927003D627D /* ServicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA18D352A05C927003D627D /* ServicesView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3A6417B32A05D34C007E4AB6 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 		3A848E292A05A0F2006C4059 /* WBuffet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBuffet.swift; sourceTree = "<group>"; };
 		3A848E2D2A05AB1E006C4059 /* AddServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddServices.swift; sourceTree = "<group>"; };
 		50806F042A05BD6400967B75 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -30,7 +31,6 @@
 		FBA18D2A2A056291003D627D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FBA18D312A05881F003D627D /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		FBA18D332A05885E003D627D /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
-		FBA18D352A05C927003D627D /* ServicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServicesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +63,6 @@
 		FBA18D222A05628F003D627D /* Hackathon */ = {
 			isa = PBXGroup;
 			children = (
-				FBA18D352A05C927003D627D /* ServicesView.swift */,
 				FBA18D232A05628F003D627D /* HackathonApp.swift */,
 				FBA18D252A05628F003D627D /* ContentView.swift */,
 				FBA18D272A056291003D627D /* Assets.xcassets */,
@@ -73,6 +72,7 @@
 				3A848E292A05A0F2006C4059 /* WBuffet.swift */,
 				3A848E2D2A05AB1E006C4059 /* AddServices.swift */,
 				50806F042A05BD6400967B75 /* HomeView.swift */,
+				3A6417B32A05D34C007E4AB6 /* Services.swift */,
 			);
 			path = Hackathon;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 				FBA18D342A05885E003D627D /* RegisterView.swift in Sources */,
 				FBA18D262A05628F003D627D /* ContentView.swift in Sources */,
 				3A848E2E2A05AB1E006C4059 /* AddServices.swift in Sources */,
-				FBA18D362A05C927003D627D /* ServicesView.swift in Sources */,
+				3A6417B42A05D34C007E4AB6 /* Services.swift in Sources */,
 				FBA18D242A05628F003D627D /* HackathonApp.swift in Sources */,
 				3A848E2A2A05A0F2006C4059 /* WBuffet.swift in Sources */,
 			);
