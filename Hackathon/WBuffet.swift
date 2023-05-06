@@ -71,7 +71,10 @@ struct ChatView: View {
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            let parameters = ["messages": messages.last!.message]
+            let parameters = ["messages": messages.map({ i in
+                return ["content": i.message, "sender": i.isMe ? 1 : 0]
+            })]
+            request.setValue("Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZXhwIjoxNjg4NTAxNjc3fQ.Pxo3za1hibBmVPyjQu6a_69HoW4jW6pEShWZN36ofJ4", forHTTPHeaderField: "Authorization")
             request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: [])
             
             // Enviar la solicitud HTTP
@@ -89,7 +92,7 @@ struct ChatView: View {
                     print("Error al analizar la respuesta JSON")
                     return
                 }
-                let responseMessage = responseJSON["response"] as? String ?? "Lo siento, no puedo responder esa pregunta"
+                let responseMessage = responseJSON["answer"] as? String ?? "Lo siento, no puedo responder esa pregunta"
                 DispatchQueue.main.async {
                     messages.append(WBuffet(message: responseMessage, isMe: false))
                 }
