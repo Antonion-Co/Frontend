@@ -60,7 +60,7 @@ struct HomeView: View {
                     
                     Text("\(roundedTotal)$ MXN").font(.largeTitle).fontWeight(.bold).frame(width: 360.0, height: 100.0).background(Color(hue: 0.289, saturation: 0.0, brightness: 0.0, opacity: 0.129)).foregroundColor(Color(hue: 0.246, saturation: 0.86, brightness: 0.857)).cornerRadius(5)
                     
-                    NavigationLink(destination: WBuffet()) {
+                    NavigationLink(destination: HomeView()) {
                         Image(systemName:
                                 "message.badge.circle.fill").resizable().frame(width: 50.0, height:50.0).foregroundColor(Color.gray)
                     }

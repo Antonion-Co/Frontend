@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct WBuffet: Identifiable {
     var id = UUID()
     var message: String
@@ -20,6 +18,7 @@ struct ChatView: View {
     @State private var messages: [WBuffet] = [
         WBuffet(message: "Hola, ¿en qué puedo ayudarte?", isMe: false)
     ]
+    @Binding var token: String
     
     var body: some View {
         VStack {
@@ -68,11 +67,11 @@ struct ChatView: View {
             message = ""
             
             // Configurar la solicitud HTTP
-            let url = URL(string: "https://ejemplo.com/api/chatbot")!
+            let url = URL(string: "https://5d53-2605-6440-1018-1000-00-921c.ngrok-free.app/api/messages")!
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            let parameters = ["message": messages.last!.message]
+            let parameters = ["messages": messages.last!.message]
             request.httpBody = try! JSONSerialization.data(withJSONObject: parameters, options: [])
             
             // Enviar la solicitud HTTP
@@ -99,10 +98,3 @@ struct ChatView: View {
         }
     }
 }
-
-struct ChatView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatView()
-    }
-}
-
